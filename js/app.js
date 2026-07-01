@@ -15,6 +15,14 @@ createApp({
             t_nama: '', t_tipe: 'Masuk', t_nominal: ''
         });
 
+        // == DATA DEFAULT SEKARANG KOSONG TANPA DUMMY ==
+        const defaultStats = {
+            material: [],
+            pekerja: [],
+            pengiriman: [],
+            transaksi: []
+        };
+
         // 1. AMBIL DATA DARI MEMORI INTERNAL (Jika ada)
         const savedData = localStorage.getItem('fortis_stats');
         const stats = reactive(savedData ? JSON.parse(savedData) : defaultStats);
@@ -78,13 +86,13 @@ createApp({
             stats[category] = stats[category].filter(item => item.id !== id);
         };
 
+        // Reset Data langsung mengosongkan array
         const resetData = () => {
             if (confirm("Apakah Anda yakin ingin mengosongkan semua data di memori internal?")) {
                 stats.material = [];
                 stats.pekerja = [];
                 stats.pengiriman = [];
                 stats.transaksi = [];
-                // watch otomatis akan mengosongkan localStorage juga
             }
         };
 
@@ -92,7 +100,7 @@ createApp({
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(stats, null, 2));
             const dlAnchor = document.createElement('a');
             dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", `FORTIS_VUE_DATA_${Date.now()}.json`);
+            dlAnchor.setAttribute("download", `PT ANANTA BUILD CONSTRUCTION_DATA_${Date.now()}.json`);
             document.body.appendChild(dlAnchor);
             dlAnchor.click();
             dlAnchor.remove();
