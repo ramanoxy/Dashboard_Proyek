@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PT ANANTA BUILD CONSTRUCTION</title>
-    <!-- Tailwind CSS Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom Separated CSS -->
     <link rel="stylesheet" href="css/style.css">
-    <!-- Tailwind Custom Config -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -23,12 +19,9 @@
 
     <div id="app" class="w-full flex flex-col md:flex-row min-h-screen">
         
-        <!-- SIDEBAR NAVIGATION -->
         <aside class="w-full md:w-80 bg-zinc-900 border-b md:border-b-0 md:border-r border-zinc-800 flex flex-col shrink-0">
-            <div class="p-6 border-b border-zinc-800 flex items-center gap-6">
-                <div class="h-24 w-24 flex items-center justify-center">
-                    <a href="./index.html"><img src="./assets/Logo.png" alt="ANANTA BUILD CONSTRUCTION"></a>
-                </div>
+            <div class="p-6 border-d border-zinc-800 flex items-center gap-4">
+                <div class="w-auto h-16"><img src="./assets/Logo.png" alt="Logo" class="h-full w-full rounded-lg flex items-center justify-center"></div>
                 <div>
                     <h1 class="font-bold tracking-tight text-zinc-100">PT ANANTA BUILD CONSTRUCTION</h1>
                     <p class="text-xs text-zinc-400 font-medium">Sistem Manajemen Proyek</p>
@@ -55,9 +48,7 @@
             <div class="p-4 border-t border-zinc-800 text-center text-xs text-zinc-500">&copy; 2026 PT ANANTA BUILD CONSTRUCTION</div>
         </aside>
 
-        <!-- MAIN CONTENT -->
         <main class="flex-1 flex flex-col min-w-0">
-            <!-- TOPBAR -->
             <header class="h-16 border-b border-zinc-800 px-6 flex items-center justify-between bg-zinc-900/50 backdrop-blur-md">
                 <h2 class="text-lg font-semibold capitalize">Panel {{ activeTab }}</h2>
                 <div class="flex items-center gap-2">
@@ -70,10 +61,8 @@
                 </div>
             </header>
 
-            <!-- APP PANELS -->
             <div class="flex-1 p-6 overflow-y-auto space-y-6">
                 
-                <!-- TAB: DASHBOARD -->
                 <div v-if="activeTab === 'dashboard'" class="space-y-6">
                     <div class="bg-gradient-to-r from-zinc-900 to-zinc-800 border border-zinc-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
                         <h3 class="text-xl font-bold mb-1">Selamat Datang di PT ANANTA BUILD CONSTRUCTION</h3>
@@ -92,7 +81,6 @@
                     </div>
                 </div>
 
-                <!-- TAB: MATERIAL -->
                 <div v-if="activeTab === 'material'" class="space-y-4">
                     <div class="flex justify-between items-center">
                         <h3 class="text-base font-semibold">Gudang Logistik Material</h3>
@@ -115,7 +103,6 @@
                     </div>
                 </div>
 
-                <!-- TAB: PEKERJA -->
                 <div v-if="activeTab === 'pekerja'" class="space-y-4">
                     <div class="flex justify-between items-center">
                         <h3 class="text-base font-semibold">SDM & Personalia</h3>
@@ -124,13 +111,24 @@
                     <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
                         <table class="w-full text-left">
                             <thead class="bg-zinc-800/40 border-b border-zinc-800 text-xs font-semibold text-zinc-300 uppercase">
-                                <tr><th class="py-3 px-4">Nama Lengkap</th><th class="py-3 px-4">Jabatan</th><th class="py-3 px-4">Kontak</th><th class="py-3 px-4 text-right">Aksi</th></tr>
+                                <tr>
+                                    <th class="py-3 px-4">Nama Lengkap</th>
+                                    <th class="py-3 px-4">Jabatan</th>
+                                    <th class="py-3 px-4">Kontak</th>
+                                    <th class="py-3 px-4">Status Kehadiran</th>
+                                    <th class="py-3 px-4 text-right">Aksi</th>
+                                </tr>
                             </thead>
                             <tbody class="text-sm divide-y divide-zinc-800/60">
                                 <tr v-for="item in stats.pekerja" :key="item.id" class="hover:bg-zinc-900/40">
                                     <td class="py-3 px-4 font-medium">{{ item.nama }}</td>
                                     <td class="py-3 px-4"><span class="px-2 py-0.5 bg-zinc-800 rounded text-xs border border-zinc-700">{{ item.peran }}</span></td>
                                     <td class="py-3 px-4 text-zinc-400 font-mono text-xs">{{ item.kontak }}</td>
+                                    <td class="py-3 px-4">
+                                        <span :class="item.kehadiran === 'Hadir' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'" class="px-2.5 py-0.5 rounded-md text-xs font-medium border">
+                                            {{ item.kehadiran }}
+                                        </span>
+                                    </td>
                                     <td class="py-3 px-4 text-right"><button @click="deleteRow('pekerja', item.id)" class="text-zinc-500 hover:text-red-400"><i class="fa-regular fa-trash-can"></i></button></td>
                                 </tr>
                             </tbody>
@@ -138,7 +136,6 @@
                     </div>
                 </div>
 
-                <!-- TAB: PENGIRIMAN -->
                 <div v-if="activeTab === 'pengiriman'" class="space-y-4">
                     <div class="flex justify-between items-center">
                         <h3 class="text-base font-semibold">Jadwal Pengiriman Logistik</h3>
@@ -154,7 +151,15 @@
                                     <td class="py-3 px-4 font-medium">{{ item.nama }}</td>
                                     <td class="py-3 px-4">{{ item.volume }}</td>
                                     <td class="py-3 px-4 text-zinc-400 text-xs">{{ item.tujuan }}</td>
-                                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">{{ item.status }}</span></td>
+                                    <td class="py-3 px-4">
+                                        <span :class="{
+                                            'bg-amber-500/10 text-amber-400 border-amber-500/20': item.status === 'Diproses',
+                                            'bg-emerald-500/10 text-emerald-400 border-emerald-500/20': item.status === 'Deliver',
+                                            'bg-rose-500/10 text-rose-400 border-rose-500/20': item.status === 'Delay'
+                                        }" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border uppercase tracking-wider">
+                                            {{ item.status }}
+                                        </span>
+                                    </td>
                                     <td class="py-3 px-4 text-right"><button @click="deleteRow('pengiriman', item.id)" class="text-zinc-500 hover:text-red-400"><i class="fa-regular fa-trash-can"></i></button></td>
                                 </tr>
                             </tbody>
@@ -162,7 +167,6 @@
                     </div>
                 </div>
 
-                <!-- TAB: TRANSAKSI -->
                 <div v-if="activeTab === 'transaksi'" class="space-y-4">
                     <div class="flex justify-between items-center">
                         <h3 class="text-base font-semibold">Arus Kas Keuangan</h3>
@@ -192,7 +196,6 @@
             </div>
         </main>
 
-        <!-- DYNAMIC MODAL FORM -->
         <div v-if="isModalOpen" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
             <div class="bg-zinc-900 border border-zinc-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
                 <div class="px-6 py-4 border-b border-zinc-800 flex items-center justify-between">
@@ -201,7 +204,6 @@
                 </div>
                 
                 <form @submit.prevent="handleFormSubmit" class="p-6 space-y-4">
-                    <!-- Dynamic Fields via Vue conditional blocks -->
                     <div v-if="modalCategory === 'material'" class="space-y-4">
                         <div><label class="block text-xs text-zinc-400 mb-1">Nama Material</label><input type="text" v-model="form.m_nama" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></div>
                         <div class="grid grid-cols-2 gap-3">
@@ -214,12 +216,27 @@
                         <div><label class="block text-xs text-zinc-400 mb-1">Nama Lengkap</label><input type="text" v-model="form.p_nama" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></div>
                         <div><label class="block text-xs text-zinc-400 mb-1">Jabatan</label><input type="text" v-model="form.p_peran" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></div>
                         <div><label class="block text-xs text-zinc-400 mb-1">Kontak No HP</label><input type="text" v-model="form.p_kontak" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></div>
+                        <div>
+                            <label class="block text-xs text-zinc-400 mb-1">Keterangan Kehadiran</label>
+                            <select v-model="form.p_kehadiran" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="Hadir">Hadir</option>
+                                <option value="Tidak Hadir">Tidak Hadir</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div v-if="modalCategory === 'pengiriman'" class="space-y-4">
                         <div><label class="block text-xs text-zinc-400 mb-1">Item Material</label><input type="text" v-model="form.s_nama" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></div>
                         <div><label class="block text-xs text-zinc-400 mb-1">Volume Muatan</label><input type="text" v-model="form.s_volume" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></div>
                         <div><label class="block text-xs text-zinc-400 mb-1">Lokasi Tujuan</label><input type="text" v-model="form.s_tujuan" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></div>
+                        <div>
+                            <label class="block text-xs text-zinc-400 mb-1">Status Pengiriman</label>
+                            <select v-model="form.s_status" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="Diproses">Diproses</option>
+                                <option value="Deliver">Deliver</option>
+                                <option value="Delay">Delay</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div v-if="modalCategory === 'transaksi'" class="space-y-4">
@@ -244,9 +261,7 @@
 
     </div>
 
-    <!-- Vue 3 Global Production CDN Link -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <!-- Custom Separated JavaScript Logic Core -->
     <script src="js/app.js"></script>
 </body>
 </html>

@@ -7,15 +7,15 @@ createApp({
         const isModalOpen = ref(false);
         const modalCategory = ref('');
 
-        // Form Object Bindings
+        // Form Object Bindings (DITAMBAH KEY BARU UNTUK KEBUTUHAN OPTION SELECT)
         const form = reactive({
             m_nama: '', m_stok: '', m_satuan: '',
-            p_nama: '', p_peran: '', p_kontak: '',
-            s_nama: '', s_volume: '', s_tujuan: '',
+            p_nama: '', p_peran: '', p_kontak: '', p_kehadiran: 'Hadir',
+            s_nama: '', s_volume: '', s_tujuan: '', s_status: 'Diproses',
             t_nama: '', t_tipe: 'Masuk', t_nominal: ''
         });
 
-        // == DATA DEFAULT SEKARANG KOSONG TANPA DUMMY ==
+        // Struktur data default kosong siap pakai
         const defaultStats = {
             material: [],
             pekerja: [],
@@ -59,11 +59,16 @@ createApp({
 
         const closeModal = () => {
             isModalOpen.value = false;
-            // Clear form contents
-            Object.keys(form).forEach(key => form[key] = key === 't_tipe' ? 'Masuk' : '');
+            // Clear form contents & reset ke nilai default-nya masing-masing
+            Object.keys(form).forEach(key => {
+                if (key === 't_tipe') form[key] = 'Masuk';
+                else if (key === 's_status') form[key] = 'Diproses';
+                else if (key === 'p_kehadiran') form[key] = 'Hadir';
+                else form[key] = '';
+            });
         };
 
-        // Submit Form Handler Interceptor
+        // Submit Form Handler Interceptor (MENYIMPAN PROPERTI BARU YANG DIINPUT)
         const handleFormSubmit = () => {
             const cat = modalCategory.value;
             const newId = Date.now();
@@ -71,9 +76,9 @@ createApp({
             if (cat === 'material') {
                 stats.material.push({ id: newId, nama: form.m_nama, stok: parseInt(form.m_stok), satuan: form.m_satuan });
             } else if (cat === 'pekerja') {
-                stats.pekerja.push({ id: newId, nama: form.p_nama, peran: form.p_peran, kontak: form.p_kontak });
+                stats.pekerja.push({ id: newId, nama: form.p_nama, peran: form.p_peran, kontak: form.p_kontak, kehadiran: form.p_kehadiran });
             } else if (cat === 'pengiriman') {
-                stats.pengiriman.push({ id: newId, nama: form.s_nama, volume: form.s_volume, tujuan: form.s_tujuan, status: 'Diproses' });
+                stats.pengiriman.push({ id: newId, nama: form.s_nama, volume: form.s_volume, tujuan: form.s_tujuan, status: form.s_status });
             } else if (cat === 'transaksi') {
                 stats.transaksi.push({ id: newId, nama: form.t_nama, tipe: form.t_tipe, nominal: parseFloat(form.t_nominal) });
             }
@@ -86,7 +91,6 @@ createApp({
             stats[category] = stats[category].filter(item => item.id !== id);
         };
 
-        // Reset Data langsung mengosongkan array
         const resetData = () => {
             if (confirm("Apakah Anda yakin ingin mengosongkan semua data di memori internal?")) {
                 stats.material = [];
@@ -100,7 +104,7 @@ createApp({
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(stats, null, 2));
             const dlAnchor = document.createElement('a');
             dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", `PT ANANTA BUILD CONSTRUCTION_DATA_${Date.now()}.json`);
+            dlAnchor.setAttribute("download", `PT_Ananta_Build_Construction_DATA_${Date.now()}.json`);
             document.body.appendChild(dlAnchor);
             dlAnchor.click();
             dlAnchor.remove();
