@@ -1,0 +1,23 @@
+/* Custom smooth layout styling rules */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom UI Dark Scrollbars configuration */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #09090b; /* zinc-950 equivalent */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #27272a; /* zinc-800 equivalent */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3f3f46; /* zinc-700 equivalent */
+}
